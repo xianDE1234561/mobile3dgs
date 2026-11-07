@@ -1,0 +1,19 @@
+name: mobile3dgs
+channels:
+  - nvidia
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pip
+  - cuda-nvcc=12.8
+  - cuda-cudart-dev=12.8
+  - cuda-cccl=12.8
+  - gcc_linux-64=13
+  - gxx_linux-64=13
+  - pip:
+      - -e .[desktop]
+      - cuda-toolkit==12.8.1
+      - pycolmap-cuda12==4.2.1
+variables:
+  MAX_JOBS: "2"

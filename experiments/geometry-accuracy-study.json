@@ -1,0 +1,27 @@
+{
+  "name": "rgb-only-geometry-accuracy",
+  "authorization": "User requested autonomous planning, execution and final selection; RGB evaluation must use pose-align; objective is accurate 3D reconstruction.",
+  "output": "runs/rgb-only/geometry-accuracy-study",
+  "immutable": ["experiments/rgb-only-mcmc.json", "runs/analysis/rgbinit-mvs/initialization", "runs/analysis/manifest-sharp.json", "runs/rgb-only/pose-quickcheck/features.npz", "tools/geometry_eval.py", "tools/geometry_reference.py", "tools/gaussian_surface.py"],
+  "baseline": "feature-ba",
+  "training": {"steps": 10000, "cap": 200000, "initial_count": 20000, "sh_degree": 0, "init_opacity": 0.5, "geometry_train_views": 37, "rgb_train_views": 99, "teacher_every": 3, "screen_seed": 42, "confirmation_seeds": [43, 44], "pose_recipe": "Existing staged SIFT-reprojection BA + joint Gaussian optimization, fixed first training camera"},
+  "rgb_evaluation": {"mode": "pose-align", "split": "val", "steps_per_view": 200, "optimizer": "Adam", "lr": 0.001, "objective": "RGB L1", "exposure": false, "intrinsics": false, "gaussians_frozen": true, "selection": "Final iterate only", "raw_audit": true},
+  "geometry_evaluation": {"reference": "Existing six-frame fixed-world TUM depth protocol", "alignment": "None; no per-model camera/depth/scale/pointcloud fitting", "surface": "Existing absolute-opacity-0.5 projected-centre median proxy", "primary": "depth.within_5cm_fraction", "secondary": ["depth.within_2cm_fraction", "cloud.thresholds.0.02.fscore", "depth.mae_m", "depth_bands.2-4m.mae_m"], "gates_relative_to_same_seed_baseline": {"coverage_drop_max": 0.005, "within_2cm_drop_max": 0.005, "far_mae_increase_max_m": 0.01}, "tie_break": ["cloud F-score at 2cm", "lower depth MAE", "lower additional cost"], "confirmation": "Positive mean primary gain across seeds42/43/44, wins at least2 seeds, mean gates pass; RGB aligned metrics reported without treating them as geometry truth"},
+  "screen_candidates": [
+    {"name": "reference", "initialization": "retained", "depth_weight": 0.0, "variance_weight": 0.0},
+    {"name": "dense-normal", "initialization": "dense-normal", "depth_weight": 0.0, "variance_weight": 0.0},
+    {"name": "depth-balanced", "initialization": "depth-balanced", "depth_weight": 0.0, "variance_weight": 0.0},
+    {"name": "no-noise", "initialization": "retained", "noise_lr": 0.0, "depth_weight": 0.0, "variance_weight": 0.0},
+    {"name": "mvs-depth-01", "initialization": "retained", "depth_weight": 0.1, "variance_weight": 0.0},
+    {"name": "mvs-depth-03", "initialization": "retained", "depth_weight": 0.3, "variance_weight": 0.0},
+    {"name": "mvs-depth-var", "initialization": "retained", "depth_weight": 0.1, "variance_weight": 0.01},
+    {"name": "low-opacity", "initialization": "retained", "init_opacity": 0.1, "depth_weight": 0.0, "variance_weight": 0.0}
+  ],
+  "adaptive_combination": "At most one combined candidate from separately beneficial initialization, initial opacity or MCMC noise settings and the best geometry loss; if no independent gains, keep the best single factor. Candidate definitions are fixed before full training.",
+  "limits": {"max_screen_full_trainings": 9, "max_confirmation_full_trainings": 4, "concurrent_gpu_jobs": 1, "new_dependencies": false, "pretrained_model_downloads": false},
+  "data_isolation": "MVS supervision uses all 37 original geometry TRAIN views, including 29 not selected into sharp99; no held-out timestamps. Fixed-camera geometry supervision every third RGB update cycles these views deterministically without changing RGB view RNG. Sensor depth is evaluation only. Validation/test RGB never enter initialization, priors or BA tracks. Previously inspected test frames are not a pristine holdout and are not used for selection.",
+  "mobile": "No added foundation model runtime. Record desktop preprocessing/training time, peak allocation and Gaussian count. This study cannot certify mobile latency, temperature, energy or native training compatibility.",
+  "deliverables": ["stage diagnosis", "per-run configs and checkpoints", "pose-align RGB metrics/cameras/images", "fixed-world geometry maps/metrics", "paired confirmation", "best reproducible config", "README results and limitations"],
+  "scope": "Best among measured candidates on the current scene/protocol, not a claim of globally best 3D reconstruction or independent-scene generalization",
+  "pre_measurement_amendments": ["Timestamp inspection found only 8/37 geometry views in sharp99; use all original geometry TRAIN cameras rather than silently discarding 29 teachers.", "Stage diagnosis found dense zero-step opacity-median surfaces much worse than sparse MVS point depths; add an opacity0.1 ablation to distinguish opacity/representation effects, without treating unequal-coverage stage errors as directly comparable accuracy."]
+}

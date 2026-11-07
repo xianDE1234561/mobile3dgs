@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mobile3dgs"
+version = "0.1.0"
+description = "Reproducible RGB-D geometry and Gaussian initialization experiments"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0,<3", "scipy>=1.14,<2", "Pillow>=11,<13"]
+
+[project.optional-dependencies]
+desktop = ["torch==2.8.0", "torchvision==0.23.0", "gsplat==1.5.3",
+           "torchmetrics>=1.8,<1.9", "ninja>=1.11"]
+
+[project.scripts]
+mobile3dgs = "mobile3dgs.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mobile3dgs"]

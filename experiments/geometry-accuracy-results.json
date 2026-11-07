@@ -1,0 +1,24 @@
+{
+  "protocol": "experiments/geometry-accuracy-study.json",
+  "artifacts": "runs/rgb-only/geometry-accuracy-study/results.json",
+  "phase": "confirmation_stopped_by_user_no_final_selection",
+  "screen_seed": 42,
+  "steps": 10000,
+  "rgb_evaluation": "200-step frozen-Gaussian pose-align, final iterate",
+  "geometry_evaluation": "Fixed-world held-out depth; no per-model alignment",
+  "screen_winner": "mvs-depth-03",
+  "screen_metrics_units": {"hit5": "fraction of all reference-valid pixels", "hit2": "fraction of all reference-valid pixels", "mae": "metres", "far_mae": "metres, reference depth 2-4m", "coverage": "fraction", "psnr": "pose-aligned dB", "seconds": "desktop training only, excluding cached MVS construction"},
+  "screen": [
+    {"name":"reference","hit5":0.6614951873812371,"hit2":0.4235642234109346,"mae":0.09780231465864286,"far_mae":0.328537885904234,"coverage":0.9949643398922888,"psnr":20.90614002411745,"seconds":230.32607379100045},
+    {"name":"dense-normal","hit5":0.6744982327097516,"hit2":0.4228492793378891,"mae":0.09823966843927293,"far_mae":0.3384090395521855,"coverage":0.9889698670764467,"psnr":21.00343413561501,"seconds":228.70975205100058},
+    {"name":"depth-balanced","hit5":0.661009722179095,"hit2":0.4113844240648357,"mae":0.08999358013612073,"far_mae":0.2944573933358087,"coverage":0.995302878028572,"psnr":21.230350194921993,"seconds":238.03362466099952},
+    {"name":"no-noise","hit5":0.6479642649140439,"hit2":0.41081640705764916,"mae":0.1137944441816425,"far_mae":0.4100627292322623,"coverage":0.99552402598337,"psnr":20.771592657428982,"seconds":242.39624855300008},
+    {"name":"mvs-depth-01","hit5":0.6856972560234417,"hit2":0.460121797993461,"mae":0.09666420491288125,"far_mae":0.34484019908964586,"coverage":0.9902604017167747,"psnr":20.779496235952656,"seconds":262.3885584359996},
+    {"name":"mvs-depth-03","hit5":0.6927611155248137,"hit2":0.46083295528645857,"mae":0.09283552803262576,"far_mae":0.3261223732728618,"coverage":0.9946076252117757,"psnr":20.964295981032432,"seconds":262.6117452469989},
+    {"name":"mvs-depth-var","hit5":0.6795626723458269,"hit2":0.4495415345395995,"mae":0.09632676663492391,"far_mae":0.35344404256307127,"coverage":0.9835880952723566,"psnr":21.130875484337455,"seconds":277.75374949900106},
+    {"name":"low-opacity","hit5":0.6641747129431385,"hit2":0.4133217407373467,"mae":0.09362637616401473,"far_mae":0.30343575362771397,"coverage":0.9963056173852587,"psnr":21.202252554895885,"seconds":235.1495929749999}
+  ],
+  "confirmation": {"status":"stopped_by_user","completed_seeds":[42,43],"unfinished_seeds":[44],"final_selection":null,"reason":"User requested stopping training and switching to digital-image-processing architecture research; two seeds do not satisfy the preregistered three-seed confirmation"},
+  "mobile_measured": false,
+  "scope": "One previously inspected scene and six validation views; screening alone does not establish repeatability or cross-scene generalization"
+}

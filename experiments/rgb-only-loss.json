@@ -1,0 +1,11 @@
+{
+  "initialization": "runs/analysis/rgbinit-mvs/initialization",
+  "manifest": "runs/analysis/manifest-sharp.json",
+  "steps": 10000,
+  "seed": 42,
+  "cap": 200000,
+  "init_opacity": 0.5,
+  "lambda_ssim": 0.2,
+  "opacity_reg": 0.01,
+  "scale_reg": 0.01
+}

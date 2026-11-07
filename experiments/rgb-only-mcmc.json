@@ -1,0 +1,20 @@
+{
+  "initialization": "runs/analysis/rgbinit-mvs/initialization",
+  "manifest": "runs/analysis/manifest-sharp.json",
+  "steps": 10000,
+  "seed": 42,
+  "cap": 200000,
+  "init_opacity": 0.5,
+  "reference": {
+    "run": "runs/analysis/r31-mvs-sharp99-mcmc",
+    "initialization_sha256": "c33e9b5ca6b693554bb348485ce9e9bace722d93f4007261f818a2802c6d918b",
+    "manifest_sha256": "2e61988381a96b1a408f5dd029163b74681c7bcb157e032cc54e6cd8736da6aa",
+    "geometry_train_frames": 37,
+    "train_frames": 99,
+    "val_frames": 6,
+    "test_frames": 7,
+    "initial_count": 20000,
+    "val_psnr": 18.94111759298377,
+    "val_ssim": 0.694893608490626
+  }
+}

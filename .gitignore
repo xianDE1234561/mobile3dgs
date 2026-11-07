@@ -1,0 +1,24 @@
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build outputs
+build/
+dist/
+*.egg-info/
+
+# Downloaded datasets
+/data/
+
+# Generated reconstruction and training artifacts
+/runs/**/*.pt
+/runs/**/*.npz
+/runs/**/*.ply
+/runs/**/*.bin
+/runs/**/*.db
+/runs/**/*.log
